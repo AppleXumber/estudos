@@ -5,6 +5,7 @@ import java.util.*
 import kotlin.random.Random
 
 data class Gamer(var nome: String, var email: String) {
+
   var dataNascimento: String? = null
   var usuario: String? = null
     set(value) {
@@ -14,7 +15,7 @@ data class Gamer(var nome: String, var email: String) {
 
   var idInterno: String? = null
     private set
-
+  var plano: Plano = PlanoAvulso("BRONZE")
   val jogosBuscados = mutableListOf<Jogo?>()
   val jogosAlugados = mutableListOf<Aluguel>()
 
@@ -47,13 +48,19 @@ data class Gamer(var nome: String, var email: String) {
   fun alugaJogo(jogo: Jogo, periodo: Periodo): Aluguel {
     val aluguel = Aluguel(this, jogo, periodo)
     jogosAlugados.add(aluguel)
-    return  aluguel
+    return aluguel
   }
 
   /*init {
       if (nome.isNullOrBlank()) throw IllegalArgumentException("Nome em branco")
       this.email = validarEmail()
   }*/
+
+  fun jogosDoMes (mes:Int): List<Jogo> {
+    return jogosAlugados
+      .filter {aluguel -> aluguel.periodo.dataInicial.monthValue == mes}
+      .map {aluguel -> aluguel.jogo}
+  }
 
   companion object {
     fun criarGamer(leitura: Scanner): Gamer {
