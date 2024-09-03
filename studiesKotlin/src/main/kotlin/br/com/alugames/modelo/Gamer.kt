@@ -1,6 +1,5 @@
 package br.com.alugames.modelo
 
-import java.time.LocalDate
 import java.util.*
 import kotlin.random.Random
 
@@ -19,6 +18,7 @@ data class Gamer(var nome: String, var email: String):Recomendavel {
   val jogosBuscados = mutableListOf<Jogo?>()
   val jogosAlugados = mutableListOf<Aluguel>()
   private val listaNotas = mutableListOf<Int>()
+  val jogosRecomendados = mutableListOf<Jogo>()
 
   override val media: Double
     get() = listaNotas.average()
@@ -26,6 +26,11 @@ data class Gamer(var nome: String, var email: String):Recomendavel {
   override fun recomendar(nota: Int) {
     if(nota> 10 || nota < 1) throw Exception("Valor fora do intervalo permitido")
     listaNotas.add(nota)
+  }
+
+  fun recomendarJogo(jogo: Jogo, nota: Int) {
+    jogo.recomendar(nota)
+    jogosRecomendados.add(jogo)
   }
 
 
